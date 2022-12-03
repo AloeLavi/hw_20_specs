@@ -15,7 +15,7 @@ public class CreateUserSpecs {
     public static RequestSpecification createUserRequestSpec = with()
             .filter(new AllureRestAssured())
             .baseUri("https://reqres.in")
-            .basePath("/api/login")
+            .basePath("/api/users")
             .log().all()
             .contentType(JSON);
 

@@ -2,9 +2,14 @@ package models.lombok;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class GetSingleUserResponseLombokModel {
-    private String email,first_name, last_name, avatar;
-    private int id;
+
+
+    public List<ResponseData> data;
+    public List<Support> support;
+
 
 }
