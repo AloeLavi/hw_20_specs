@@ -6,10 +6,13 @@ import models.lombok.CreateUserResponseLombokModel;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
+import specs.CreateUserSpecs;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.hamcrest.Matchers.*;
+import static specs.CreateUserSpecs.createUserRequestSpec;
+import static specs.CreateUserSpecs.createUserResponseSpec;
 
 
 public class RegresInTests  {
@@ -17,18 +20,24 @@ public class RegresInTests  {
 
     @Test
     void getSingleUser() {
-        given()
-                .log().uri()
+        CreateUserResponseLombokModel response = given()
+                .filter(new AllureRestAssured())
+                .log().all()
                 .when()
                 .get("https://reqres.in/api/users/2")
                 .then()
                 .log().status()
                 .log().body()
                 .statusCode(200)
-                .body(  "data.id", is(2),
+                .extract().as(CreateUserResponseLombokModel.class);
+        assertThat(response.getId()).isEqualTo("2");
+
+
+
+           /*     .body(  "data.id", is(2),
                         "data.email", is("janet.weaver@reqres.in"),
                         "data.first_name", is("Janet"),
-                        "data.last_name", is("Weaver"));
+                        "data.last_name", is("Weaver")); */
 
     }
 
@@ -38,15 +47,12 @@ public class RegresInTests  {
         body.setName("morpheus");
         body.setJob("leader");
         CreateUserResponseLombokModel response= given()
-                .filter(new AllureRestAssured())
-                .log().all()
-                .contentType(JSON)
+                .spec(createUserRequestSpec)
                 .body(body)
                 .when()
                 .post("https://reqres.in/api/users")
                 .then()
-                .log().status()
-                .log().body()
+                .spec(createUserResponseSpec)
                 .statusCode(201)
                 .extract().as(CreateUserResponseLombokModel.class);
         assertThat(response.getName()).isEqualTo("morpheus");
