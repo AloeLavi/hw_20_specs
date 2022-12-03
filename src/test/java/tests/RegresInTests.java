@@ -1,5 +1,6 @@
 package tests;
 
+import io.qameta.allure.restassured.AllureRestAssured;
 import models.lombok.CreateUserBodyLombokModel;
 import models.lombok.CreateUserResponseLombokModel;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,7 +12,7 @@ import static io.restassured.http.ContentType.JSON;
 import static org.hamcrest.Matchers.*;
 
 
-public class RegresInTests {
+public class RegresInTests  {
 
 
     @Test
@@ -37,7 +38,8 @@ public class RegresInTests {
         body.setName("morpheus");
         body.setJob("leader");
         CreateUserResponseLombokModel response= given()
-                .log().uri()
+                .filter(new AllureRestAssured())
+                .log().all()
                 .contentType(JSON)
                 .body(body)
                 .when()
