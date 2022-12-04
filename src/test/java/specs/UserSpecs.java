@@ -11,15 +11,15 @@ import static io.restassured.filter.log.LogDetail.STATUS;
 import static io.restassured.http.ContentType.JSON;
 import static org.hamcrest.Matchers.notNullValue;
 
-public class CreateUserSpecs {
-    public static RequestSpecification createUserRequestSpec = with()
+public class UserSpecs {
+    public static RequestSpecification UserRequestSpec = with()
             .filter(new AllureRestAssured())
             .baseUri("https://reqres.in")
             .basePath("/api/users")
             .log().all()
             .contentType(JSON);
 
-    public static ResponseSpecification createUserResponseSpec = new ResponseSpecBuilder()
+    public static ResponseSpecification UserResponseSpec = new ResponseSpecBuilder()
             .log(STATUS)
             .log(BODY)
             .expectStatusCode(201)
